@@ -3,31 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/style.css">
-  <title> Form login and password</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Login Form</title>
 </head>
 <body>
   <div class="wrapper">
-    <from id="loginForm">
+    <form id="loginForm">
+      <h1 class="login-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </h1>
+      
+      <div class="input-box">
+        <input type="text" id="username" placeholder="Username" required>
+      </div>
+      
+      <div class="input-box">
+        <input type="password" id="password" placeholder="Password" required>
+      </div>
+      
+      <button type="submit" class="btn">Login</button>
+      <div id="message" class="message"></div>
+      
+      <div class="register-link">
+        <p>Don't have an account? <a href="#">Register</a></p>
+      </div>
+    </form>
+  </div>
 
-    </from>
-<form action="">
-  <h1>login</h1>
-  <div class="input-box">
-  <input type="" placeholder="Ursname" required>
-  </div>
-  <div class="input-box">
-  <input type="" placeholder="Password" required>
-  </div>
-  <div class="remember">
-    <label for=""> <input type="checkbox">Remember me</label>
-  </div>
-  
-<button type="submit" class="btn">Login</button>
-<div class="register-link">
-  <p>Dont have an account? <a href="#">Register</a></p>
-</div>
-</form>
-  </div>
+  <script src="/js/auth.js"></script>
 </body>
 </html>
