@@ -15,6 +15,7 @@ body{
   background: linear-gradient(180deg, rgb(125, 190, 255), rgb(255, 255, 255));
 }
 
+/* это крч градиент и т.д для плашки этой */
 .wrapper{
   width: 420px;
   background: linear-gradient(180deg, 
@@ -41,7 +42,7 @@ body{
   overflow: hidden;
 }
 
-/* Добавил эффект левитации при наведении - поднимает плашку на 8px */
+/* Добавил эффект левитации при наведении - поднимает плашку*/
 .wrapper:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 
@@ -66,7 +67,21 @@ body{
   z-index: 2;
 }
 
-/* Заменил текст Login на иконку пользователя */
+
+.form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-subtitle {
+  margin-top: 10px;
+  color: #666;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+
+/* Заменил текст заголовка в верху плашки на иконку пользователя */
 .login-icon {
   display: flex;
   justify-content: center;
@@ -88,6 +103,7 @@ body{
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
+/* стили полей ввода */
 .wrapper .input-box{
   width: 100%;
   height: 50px;
@@ -96,6 +112,18 @@ body{
   z-index: 1;
 }
 
+/* хуйня в которой иконка крч */
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 55%;
+  transform: translateY(-50%);
+  z-index: 2;
+  color: #6d6d6d;
+  transition: all 0.3s ease;
+}
+
+/* Стили для полей ввода с иконками */
 .input-box input{
   width: 100%;
   height: 100%;
@@ -106,7 +134,7 @@ body{
   border-radius: 40px;
   font-size: 16px;
   color: #2c5282;
-  padding: 20px 45px 20px 20px;
+  padding: 20px 45px 20px 45px;
   transition: all 0.3s ease;
   box-shadow: 
     inset 0 1px 3px rgba(0, 0, 0, 0.1),
@@ -122,9 +150,15 @@ body{
   transform: translateY(-1px);
 }
 
-.input-box input::placeholder{
-  color: #90cdf4;
+/* Изменение цвета иконки при фокусе на поле */
+.input-box input:focus + .input-icon {
+  color: #2b2b2b;
 }
+
+.input-box input::placeholder{
+  color: #929292;
+}
+
 
 /* Поменял цвет кнопки с синего на темно-серый градиент */
 .wrapper .btn{
@@ -180,6 +214,8 @@ body{
     0 1px 2px rgba(255, 255, 255, 0.2) inset;
 }
 
+
+/* Стили для ссылки регистрации */
 .wrapper .register-link{
   font-size: 14.5px;
   text-align: center;
@@ -221,36 +257,42 @@ body{
 
 /* Удалил стили для .test-btn и .forgot-password */
 
-.message {
-  margin: 15px 0;
-  padding: 10px;
-  border-radius: 5px;
+/* Стили для ссылки входа */
+.wrapper .login-link{
+  font-size: 14.5px;
   text-align: center;
-  display: none;
+  margin-top: 20px;
   position: relative;
   z-index: 1;
-  box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.message.success {
-  background: rgba(72, 187, 120, 0.2);
-  color: #2f855a;
-  border: 1px solid rgba(56, 161, 105, 0.3);
-  display: block;
+.login-link p {
+  color: #4a5568;
 }
 
-.message.error {
-  background: rgba(245, 101, 101, 0.2);
-  color: #c53030;
-  border: 1px solid rgba(229, 62, 62, 0.3);
-  display: block;
-}
-
-.message.loading {
-  background: rgba(66, 153, 225, 0.2);
+.login-link p a {
   color: #2c5282;
-  border: 1px solid rgba(66, 153, 225, 0.3);
-  display: block;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.login-link p a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #2c5282;
+  transition: width 0.3s ease;
+}
+
+.login-link p a:hover{
+  color: #1a365d;
+}
+
+.login-link p a:hover::after {
+  width: 100%;
 }

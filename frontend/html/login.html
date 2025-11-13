@@ -9,26 +9,41 @@
 <body>
   <div class="wrapper">
     <form id="loginForm">
-      <h1 class="login-icon">
+    <div class="form-header">
+      <h1 class="login-icon"> <!-- Добавил иконку вместо надписи -->
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
-      </h1>
-      
+      </h1> <!-- Добавил текст под иконкой -->
+      <p class="form-subtitle">Login with email or username</p>
+    </div>
+      <!-- Добавил иконку в поле ввода -->
       <div class="input-box">
-        <input type="text" id="username" placeholder="Username" required>
+        <div class="input-icon"> <!-- это кинока -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <input type="text" id="username" placeholder="Email or username" required>
       </div>
-      
+      <!-- Добавил иконку в поле ввода -->
       <div class="input-box">
+        <div class="input-icon"> <!-- это кинока -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
         <input type="password" id="password" placeholder="Password" required>
       </div>
       
       <button type="submit" class="btn">Login</button>
       <div id="message" class="message"></div>
       
-      <div class="register-link">
-        <p>Don't have an account? <a href="#">Register</a></p>
+      <div class="register-link"> <!-- Добавил в href переадресацию на страницу регистрации -->
+        <p>Don't have an account? <a href="/registration.html">Register</a></p>
       </div>
     </form>
   </div>

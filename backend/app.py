@@ -30,6 +30,14 @@ def serve_js(filename):
 def serve_html(page):
     return send_from_directory(FRONTEND_HTML, page)
 
+@app.route('/register.html')  
+def serve_register():
+    return send_from_directory(FRONTEND_HTML, 'register.html')
+
+@app.route('/login.html')
+def serve_login():
+    return send_from_directory(FRONTEND_HTML, 'login.html')
+
 @app.route('/api/test', methods=['GET'])
 def test():
     return jsonify({"status": "success", "message": "Backend работает!"})
@@ -52,6 +60,38 @@ def login():
                 "success": False,
                 "message": "Заполните все поля"
             })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Ошибка сервера: {str(e)}"
+        })
+
+# ДОБАВЛЕН МАРШРУТ ДЛЯ РЕГИСТРАЦИИ
+@app.route('/api/register', methods=['POST'])
+def register():
+    try:
+        data = request.json
+        username = data.get('username', '').strip()
+        email = data.get('email', '').strip()
+        password = data.get('password', '').strip()
+        
+        # Проверяем, что все поля заполнены
+        if not username or not email or not password:
+            return jsonify({
+                "success": False,
+                "message": "Все поля обязательны для заполнения"
+            })
+        
+        # Здесь обычно происходит проверка на существующего пользователя,
+        # хеширование пароля и сохранение в базу данных
+        # Для демонстрации просто возвращаем успех
+        
+        return jsonify({
+            "success": True,
+            "message": f"Пользователь {username} успешно зарегистрирован!",
+            "user": username
+        })
+        
     except Exception as e:
         return jsonify({
             "success": False,

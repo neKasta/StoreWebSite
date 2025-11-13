@@ -65,17 +65,6 @@ async function handleLogin() {
     }
 }
 
-// Функция для тестирования бэкенда
-async function testBackend() {
-    try {
-        const response = await fetch(`${BACKEND_URL}/api/test`);
-        const data = await response.json();
-        alert(`✅ Бэкенд работает!\nСообщение: ${data.message}`);
-    } catch (error) {
-        alert('❌ Не удалось подключиться к бэкенду');
-    }
-}
-
 // Функция для показа сообщений
 function showMessage(text, type) {
     const messageDiv = document.getElementById('message');
