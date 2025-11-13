@@ -296,3 +296,9 @@ body{
 .login-link p a:hover::after {
   width: 100%;
 }
+
+/* Стиль для текста под кнопкой */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

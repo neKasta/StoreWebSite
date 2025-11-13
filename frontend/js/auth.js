@@ -9,67 +9,88 @@ const BACKEND_URL = (function() {
 
 console.log('Backend URL:', BACKEND_URL);
 
-// Ждем загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
+    
     const loginForm = document.getElementById('loginForm');
     
     if (loginForm) {
+        
         loginForm.addEventListener('submit', async function(event) {
+            
             event.preventDefault();
+            
             await handleLogin();
         });
+    } else {
+        console.error('❌ Login form not found!');
     }
 });
 
-// Функция для обработки входа
-async function handleLogin() {
+async function handleLogin() { 
+    
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value.trim();
     const messageDiv = document.getElementById('message');
     const loginBtn = document.querySelector('.btn');
-    
+
+
     if (!username || !password) {
-        showMessage('Заполните все поля', 'error');
+        messageDiv.textContent = 'Заполните все поля';
+        messageDiv.className = 'message error';
         return;
     }
-    
-    showMessage('Проверяем данные...', 'loading');
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Вход...';
-    
+
+
+    messageDiv.textContent = '';
+    messageDiv.className = 'message';
+
+
+    messageDiv.textContent = 'Проверяем данные...';
+    messageDiv.className = 'message loading';
+    if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Вход...';
+    }
+
     try {
+        
+
         const response = await fetch(`${BACKEND_URL}/api/login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 username: username,
-                password: password
+                password: password 
             })
         });
+
         
-        const result = await response.json();
+
+        const data = await response.json();
         
-        if (result.success) {
-            showMessage('Успешный вход!', 'success');
+        if (data.success) {
+            messageDiv.textContent = data.message;
+            messageDiv.className = 'message success';
+
+
+            setTimeout(() => {
+                window.location.href = '/registration.html'; 
+            }, 1000);
         } else {
-            showMessage(result.message, 'error');
+            messageDiv.textContent = data.message;
+            messageDiv.className = 'message error'; 
         }
     } catch (error) {
-        console.error('Error:', error);
-        showMessage('Ошибка соединения с сервером', 'error');
-    } finally {
-        loginBtn.disabled = false;
-        loginBtn.textContent = 'Login';
-    }
-}
 
-// Функция для показа сообщений
-function showMessage(text, type) {
-    const messageDiv = document.getElementById('message');
-    if (messageDiv) {
-        messageDiv.textContent = text;
-        messageDiv.className = `message ${type}`;
+        messageDiv.textContent = 'Ошибка соединения с сервером';
+        messageDiv.className = 'message error';
+    } finally {
+
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Login';
+        }
     }
 }

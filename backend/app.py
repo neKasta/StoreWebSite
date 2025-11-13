@@ -1,102 +1,152 @@
-from flask import Flask, jsonify, request, send_from_directory
-from flask_cors import CORS
+from quart import Quart, jsonify, request, send_from_directory
+from quart_cors import cors
 import os
 
-app = Flask(__name__)
-CORS(app)
+from core.auth import login_user
+from core.reg import register_user, validate_registration_data
 
-# Пути к разным папкам фронтенда
+app = Quart(__name__)
+app = cors(app, allow_origin="*")
+
 FRONTEND_BASE = os.path.join(os.path.dirname(__file__), '../frontend')
 FRONTEND_HTML = os.path.join(FRONTEND_BASE, 'html')
 FRONTEND_CSS = os.path.join(FRONTEND_BASE, 'css')
 FRONTEND_JS = os.path.join(FRONTEND_BASE, 'js')
 
+
 @app.route('/')
-def server_index():
-    return send_from_directory(FRONTEND_HTML, 'login.html')
+async def serve_index():
+    return await send_from_directory(FRONTEND_HTML, 'login.html')
 
-# Маршруты для CSS файлов
 @app.route('/css/<path:filename>')
-def serve_css(filename):
-    return send_from_directory(FRONTEND_CSS, filename)
+async def serve_css(filename):
+    return await send_from_directory(FRONTEND_CSS, filename)
 
-# Маршруты для JS файлов  
 @app.route('/js/<path:filename>')
-def serve_js(filename):
-    return send_from_directory(FRONTEND_JS, filename)
+async def serve_js(filename):
+    return await send_from_directory(FRONTEND_JS, filename)
 
-# Маршруты для HTML файлов
 @app.route('/<path:page>')
-def serve_html(page):
-    return send_from_directory(FRONTEND_HTML, page)
+async def serve_html(page):
+    return await send_from_directory(FRONTEND_HTML, page)
 
-@app.route('/register.html')  
-def serve_register():
-    return send_from_directory(FRONTEND_HTML, 'register.html')
-
-@app.route('/login.html')
-def serve_login():
-    return send_from_directory(FRONTEND_HTML, 'login.html')
-
-@app.route('/api/test', methods=['GET'])
-def test():
-    return jsonify({"status": "success", "message": "Backend работает!"})
 
 @app.route('/api/login', methods=['POST'])
-def login():
+async def handle_login():
     try:
-        data = request.json
+        data = await request.get_json()
+        
         username = data.get('username', '').strip()
         password = data.get('password', '').strip()
         
-        if username and password:
+        
+        if not username:
+            return jsonify({
+                "success": False, 
+                "message": "Введите почту или имя пользователя"
+            })
+            
+        if not password:
+            return jsonify({
+                "success": False, 
+                "message": "Введите пароль"
+            })
+        
+        success, message, user = await login_user(username, password)
+        
+        if success:
             return jsonify({
                 "success": True,
-                "message": f"Добро пожаловать, {username}!",
-                "user": username
+                "message": message,
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email
+                }
             })
         else:
             return jsonify({
-                "success": False,
-                "message": "Заполните все поля"
+                "success": False, 
+                "message": message
             })
+            
     except Exception as e:
         return jsonify({
             "success": False,
-            "message": f"Ошибка сервера: {str(e)}"
+            "message": f"Server error: {str(e)}"
         })
 
-# ДОБАВЛЕН МАРШРУТ ДЛЯ РЕГИСТРАЦИИ
 @app.route('/api/register', methods=['POST'])
-def register():
+async def handle_register():
     try:
-        data = request.json
+
+        data = await request.get_json()
+        
+
         username = data.get('username', '').strip()
         email = data.get('email', '').strip()
         password = data.get('password', '').strip()
         
-        # Проверяем, что все поля заполнены
-        if not username or not email or not password:
+
+        if not username:
             return jsonify({
-                "success": False,
-                "message": "Все поля обязательны для заполнения"
+                "success": False, 
+                "message": "Введите имя пользователя"
+            })
+            
+        if not email:
+            return jsonify({
+                "success": False, 
+                "message": "Введите email"
+            })
+            
+        if not password:
+            return jsonify({
+                "success": False, 
+                "message": "Введите пароль"
             })
         
-        # Здесь обычно происходит проверка на существующего пользователя,
-        # хеширование пароля и сохранение в базу данных
-        # Для демонстрации просто возвращаем успех
+
+        validation_errors = validate_registration_data(username, email, password)
+        if validation_errors:
+            return jsonify({
+                "success": False,
+                "message": ", ".join(validation_errors)
+            })
         
-        return jsonify({
-            "success": True,
-            "message": f"Пользователь {username} успешно зарегистрирован!",
-            "user": username
-        })
+
+        success, message, user = await register_user(username, email, password)
         
+        if success:
+            return jsonify({
+                "success": True,
+                "message": message,
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email
+                }
+            })
+        else:
+            return jsonify({
+                "success": False, 
+                "message": message
+            })
+            
     except Exception as e:
         return jsonify({
             "success": False,
-            "message": f"Ошибка сервера: {str(e)}"
+            "message": f"Ошибка сервера при регистрации: {str(e)}"
         })
 
+
+@app.route('/api/register', methods=['OPTIONS'])
+async def handle_register_options():
+    return '', 200
+
+@app.route('/api/login', methods=['OPTIONS'])
+async def handle_login_options():
+    return '', 200
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, host='0.0.0.0')

@@ -3,36 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' 'inline-speculation-rules';">
   <link rel="stylesheet" href="/css/style.css">
-  <title>Login Form</title>
+  <title>Registration Form</title>
 </head>
 <body>
   <div class="wrapper">
-    <form id="loginForm">
+    <form id="registerForm">
       <div class="form-header">
-        <h1 class="login-icon"> <!-- Добавил иконку вместо надписи -->
+        <h1 class="login-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="8.5" cy="7" r="4"></circle>
             <line x1="20" y1="8" x2="20" y2="14"></line>
             <line x1="23" y1="11" x2="17" y2="11"></line>
           </svg>
-        </h1> <!-- Добавил текст под иконкой -->
-        <p class="form-subtitle">Sign in with email or username</p>
+        </h1>
+        <p class="form-subtitle">Create account with username and email</p> 
       </div>
-      <!-- Добавил иконку в поле ввода -->
+      
       <div class="input-box">
-        <div class="input-icon"> <!-- это кинока -->
+        <div class="input-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
           </svg>
         </div>
-        <input type="text" id="username" placeholder="Email or username" required>
+        <input type="text" id="username" placeholder="Username" required>
       </div>
-      <!-- Добавил иконку в поле ввода -->
+      
       <div class="input-box">
-        <div class="input-icon"> <!-- это кинока -->
+        <div class="input-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <input type="email" id="email" placeholder="Email" required> <!-- Изменил type на email -->
+      </div>
+      
+      <div class="input-box">
+        <div class="input-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -40,9 +51,9 @@
         </div>
         <input type="password" id="password" placeholder="Password" required>
       </div>
-      <!-- Добавил поле ввести пароль и поменял айдишник -->
+      
       <div class="input-box">
-        <div class="input-icon"> <!-- это кинока -->
+        <div class="input-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             <path d="M9 12l2 2 4-4"></path>
@@ -54,12 +65,12 @@
       <button type="submit" class="btn">Register</button>
       <div id="message" class="message"></div>
       
-      <div class="login-link"> <!-- Добавил в href переадресацию на страницу логина -->
-        <p>Do have an account? <a href="/login.html">Login</a></p>
+      <div class="login-link">
+        <p>Already have an account? <a href="/login.html">Login</a></p> <!-- Исправил текст -->
       </div>
     </form>
   </div>
 
-  <script src="/js/register.js"></script>
+  <script src="../js/reg.js"></script> <!-- Исправил путь к скрипту -->
 </body>
 </html>
